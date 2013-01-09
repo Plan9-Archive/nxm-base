@@ -1,0 +1,38 @@
+
+#
+#  files comprising the database, use as many as you like, see ndb(6)
+#
+database=
+	file=/lib/ndb/local
+	file=/lib/ndb/common
+
+auth=sources.cs.bell-labs.com authdom=outside.plan9.bell-labs.com
+
+#
+#  because the public demands the name localsource
+#
+ip=127.0.0.1 sys=localhost dom=localhost
+
+#
+# pm(1) servers, tried in this order
+#
+pm=srvlist
+	srv=jfloren.net
+	srv=addonehere.com
+	srv=addanother.net
+
+ipnet=hetero ip=192.168.1.0 ipmask=255.255.255.0
+	ipgw=netgear
+	tftp=192.168.1.4
+	dns=192.168.1.4
+	dnsdomain=hetero
+	ntp=clock.redhat.com
+	auth=aspire
+	cpu=sounine
+	fs=hummingbird
+
+authdom=hetero auth=aspire
+
+ip=192.168.1.4 sys=aspire ether=001e689faf17
+	dom=aspire.hetero
+	bootf=/386/9pxeloadatom
