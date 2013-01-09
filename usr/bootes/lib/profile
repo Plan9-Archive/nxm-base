@@ -1,0 +1,39 @@
+bind -a $home/bin/rc /bin
+font = /lib/font/bit/anonpro/anon.14.font
+TEXDUMP=/lib/kertex/tex/mac
+switch($service){
+case terminal
+	plumber
+	webfs
+	echo -n accelerated > '#m/mousectl'
+	echo -n 'res 3' > '#m/mousectl'
+	prompt=('term% ' '	')
+	fn term%{ $* }
+	exec rio
+case cpu
+	if (test -e /mnt/term/mnt/wsys) {
+		# rio already running
+		wsys = /mnt/term^`{cat /mnt/term/env/wsys}
+		bind -a /mnt/term/mnt/wsys /dev
+		echo -n $sysname > /dev/label
+	}
+	bind /mnt/term/dev/cons /dev/cons
+	bind /mnt/term/dev/consctl /dev/consctl
+	bind -a /mnt/term/dev /dev
+	prompt=('cpu% ' '	')
+	fn cpu%{ $* }
+	news
+	if (! test -e /mnt/term/mnt/wsys) {
+		# cpu call from drawterm
+		if(test -e /mnt/term/dev/secstore){
+			auth/factotum -n
+			cat /mnt/term/dev/secstore | read -m > /mnt/factotum/ctl
+			echo > /mnt/term/dev/secstore
+		}
+		plumber
+		exec rio
+	}
+case con
+	prompt=('cpu% ' '	')
+	news
+}
